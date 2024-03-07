@@ -33,7 +33,7 @@ Reactive Web 는 고객의 정보를 관리하는 서비스 입니다.
 
 ## 7. Data Structure
 - Trie 구현체 : [Trie.java](resource/src/main/java/com/lego/resource/datastructure/Trie.java)
-- Repository CRUD 구현체 : [EmployeeRepositoryImpl.java](resource/src/main/java/com/lego/resource/jpa/employee/EmployeeRepositoryImpl.java)
+- Repository CRUD 구현체 : [EmployeeRepositoryImpl.java](resource/src/main/java/com/lego/resource/jpa/EmployeeRepositoryImpl.java)
 - 이미지에서 실선은 연결된 것이며, 점선은 중간 노드가 생략된 것을 의미 합니다.
 ![image](images/reactiveweb-dataStructure.png)
 

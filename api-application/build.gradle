@@ -1,0 +1,8 @@
+springBoot {
+    mainClass = 'com.lego.apiApplication.ApiApplication'
+}
+
+dependencies {
+    implementation project(':infrastructure')
+    implementation project(':business')
+}

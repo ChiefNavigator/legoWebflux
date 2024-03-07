@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.0.2'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+allprojects {
+    group = 'com.lego'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '17'
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+bootJar.enabled = false
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'groovy'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-webflux'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        runtimeOnly 'com.mysql:mysql-connector-j'
+        implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+        implementation 'com.github.jasync-sql:jasync-r2dbc-mysql:2.1.5'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'io.projectreactor:reactor-test'
+        testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
+        testImplementation 'org.spockframework:spock-spring:2.3-groovy-3.0'
+        testImplementation 'junit:junit:4.13.1'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}

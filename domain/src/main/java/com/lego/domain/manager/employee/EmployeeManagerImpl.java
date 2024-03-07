@@ -7,6 +7,7 @@ import com.lego.resource.jpa.EmployeeRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -20,11 +21,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EmployeeManagerImpl implements EmployeeManager {
 
+  @Value("${inMemoryDbMode}")
+  private boolean inMemoryDbMode;
+
   private final EmployeeRepository employeeRepository;
 
   @Override
   public List<EmployeeDomainModel> findAll() {
-    List<Employee> employeeList = employeeRepository.findAllInMemory();
+    List<Employee> employeeList;
+    if (inMemoryDbMode) {
+      employeeList = employeeRepository.findAllInMemory();
+    } else {
+      employeeList = employeeRepository.findAll();
+    }
 
     if (CollectionUtils.isEmpty(employeeList)) {
       return Collections.emptyList();
@@ -43,8 +52,14 @@ public class EmployeeManagerImpl implements EmployeeManager {
       return null;
     }
 
-    Employee employee = employeeRepository.findByPkIdInMemory(pkId);
-    return Optional.ofNullable(employee)
+    Optional<Employee> optionalEmployee;
+    if (inMemoryDbMode) {
+      optionalEmployee = Optional.ofNullable(employeeRepository.findByPkIdInMemory(pkId));
+    } else {
+      optionalEmployee = employeeRepository.findById(pkId);
+    }
+
+    return optionalEmployee
       .map(EmployeeDomainModel::of)
       .orElse(null);
   }
@@ -56,7 +71,13 @@ public class EmployeeManagerImpl implements EmployeeManager {
       return Collections.emptyList();
     }
 
-    List<Employee> employeeList = employeeRepository.findByNameInMemory(name);
+    List<Employee> employeeList;
+    if (inMemoryDbMode) {
+      employeeList = employeeRepository.findByNameInMemory(name);
+    } else {
+      employeeList = employeeRepository.findAllByName(name);
+    }
+
     if (CollectionUtils.isEmpty(employeeList)) {
       return Collections.emptyList();
     }
@@ -74,7 +95,12 @@ public class EmployeeManagerImpl implements EmployeeManager {
       return null;
     }
 
-    Employee employee = employeeRepository.findByPhoneNumberInMemory(phoneNumber);
+    Employee employee;
+    if (inMemoryDbMode) {
+      employee = employeeRepository.findByPhoneNumberInMemory(phoneNumber);
+    } else {
+      employee = employeeRepository.findByPhoneNumber(phoneNumber);
+    }
 
     return Optional.ofNullable(employee)
       .map(EmployeeDomainModel::of)
@@ -88,7 +114,13 @@ public class EmployeeManagerImpl implements EmployeeManager {
       return null;
     }
 
-    Employee employee = employeeRepository.findByEmailInMemory(email);
+    Employee employee;
+    if (inMemoryDbMode) {
+      employee = employeeRepository.findByEmailInMemory(email);
+    } else {
+      employee = employeeRepository.findByEmail(email);
+    }
+
 
     return Optional.ofNullable(employee)
       .map(EmployeeDomainModel::of)
@@ -103,7 +135,11 @@ public class EmployeeManagerImpl implements EmployeeManager {
     }
 
     Employee employee = employeeDomainModel.buildEmployee();
-    employeeRepository.saveInMemory(employee);
+    if (inMemoryDbMode) {
+      employeeRepository.saveInMemory(employee);
+    } else {
+      employeeRepository.save(employee);
+    }
   }
 
   @Override
@@ -119,6 +155,10 @@ public class EmployeeManagerImpl implements EmployeeManager {
     }
 
     Employee employee = employeeDomainModel.buildEmployee();
-    employeeRepository.deleteInMemory(employee);
+    if (inMemoryDbMode) {
+      employeeRepository.deleteInMemory(employee);
+    } else {
+      employeeRepository.delete(employee);
+    }
   }
 }

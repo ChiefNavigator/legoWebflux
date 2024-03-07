@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "inMemoryDbMode",
+      "type": "java.lang.Boolean",
+      "description": "해당 파라미터가 true 인경우 MemoryRepository 를 이용하고, false 인 경우 JpaRepository를 이용하여 서비스합니다."
+  }
+] }

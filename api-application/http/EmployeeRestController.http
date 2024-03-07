@@ -1,0 +1,96 @@
+### 1. 고객등록 - 김민철
+POST http://localhost:8080/api/employee/v1
+Content-Type: application/json
+
+{
+    "name": "김민철",
+    "address": "주소1",
+    "phoneNumber": "010-1111-1111",
+    "email" : "mincheol6074@gmail.com"
+}
+
+### 1.1 고객등록 - 김지우, 전화번호가 이미 존재하는 경우 등록할 수 없음
+POST http://localhost:8080/api/employee/v1
+Content-Type: application/json
+
+{
+  "name": "김지우",
+  "address": "주소1",
+  "phoneNumber": "010-1111-1111",
+  "email" : "aaaaaaa@naver.com"
+}
+
+### 1.2 고객등록 - 성민지, 이메일이 이미 존재하는 경우 등록할 수 없음
+POST http://localhost:8080/api/employee/v1
+Content-Type: application/json
+
+{
+  "name": "성민지",
+  "address": "주소1",
+  "phoneNumber": "010-2222-2222",
+  "email" : "mincheol6073@gmail.com"
+}
+
+### 1.3 고객등록 - 이민수, 잘못된 전화번호 형태인 경우 등록할 수 없음
+POST http://localhost:8080/api/employee/v1
+Content-Type: application/json
+
+{
+  "name": "성민지",
+  "address": "주소1",
+  "phoneNumber": "01022222222",
+  "email" : "mincheol6073@gmail.com"
+}
+
+### 1.4 고객등록 - 김민철, 잘못된 이메일 형태인 경우 등록할 수 없음
+POST http://localhost:8080/api/employee/v1
+Content-Type: application/json
+
+{
+  "name": "성민지",
+  "address": "주소1",
+  "phoneNumber": "010-2222-2222",
+  "email" : "bbbbbbbbbbgmailcom"
+}
+
+### 1.5 고객등록 - 김민철, 중복된 이름과 중복된 주소로 고객 등록
+POST http://localhost:8080/api/employee/v1
+Content-Type: application/json
+
+{
+  "name": "김민철",
+  "address": "주소1",
+  "phoneNumber": "010-2222-2222",
+  "email" : "bbbbbbbbbb@gmail.com"
+}
+
+### 2. 고객명 찾기 - 김민철
+GET http://localhost:8080/api/employee/v1?name=김민철
+Content-Type: application/json, charset==utf-8
+
+### 3. 전화번호 찾기 - 010-1111-1111
+GET http://localhost:8080/api/employee/v1/v1?phoneNumber=010-1111-1111
+Content-Type: application/json, charset==utf-8
+
+### 3. 전화번호 찾기 - 010-1111-1111
+GET http://localhost:8080/api/employee/v1?phoneNumber=010-1111-1111
+Content-Type: application/json, charset==utf-8
+
+### 4. 고객정보 삭제 - 김민철
+DELETE http://localhost:8080/api/employee/v1
+Content-Type: application/json
+
+{
+  "pkId" : 2
+}
+
+### 4.1 고객정보 삭제 - 김민철, 잘못된 PK ID로 고객정보를 삭제할 수 없음
+DELETE http://localhost:8080/api/employee/v1
+Content-Type: application/json
+
+{
+  "pkId" : 2
+}
+
+
+

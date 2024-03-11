@@ -24,9 +24,9 @@ Reactive Web 는 고객의 정보를 관리하는 서비스 입니다.
 - IDE : IntelliJ IDEA 2023.1.5
 - JAVA : Java 17
 - JDK : Amazon Corretto version 19.0.2
-- Framework : SpringBoot 3.0.2, Spock 2.3-groovy-3.0
-- Database :
-- ORM :
+- Framework : SpringBoot 3.0.2, Spring WebFlux, Spock 2.3-groovy-3.0
+- Database : Mysql
+- ORM : R2DBC, JPA
 
 ## 6. System Architecture
 ![image](images/reactiveweb-architecture.png)

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface EmployeeRepository extends JpaRepository<Employee, Long>, EmployeeMemoryRepository {
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
   List<Employee> findAllByName(String name);
 
   Employee findByPhoneNumber(String phoneNumber);

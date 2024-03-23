@@ -7,7 +7,6 @@ import com.lego.resource.jpa.EmployeeRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -21,19 +20,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EmployeeManagerImpl implements EmployeeManager {
 
-  @Value("${inMemoryDbMode}")
-  private boolean inMemoryDbMode;
-
   private final EmployeeRepository employeeRepository;
 
   @Override
   public List<EmployeeDomainModel> findAll() {
-    List<Employee> employeeList;
-    if (inMemoryDbMode) {
-      employeeList = employeeRepository.findAllInMemory();
-    } else {
-      employeeList = employeeRepository.findAll();
-    }
+    List<Employee> employeeList = employeeRepository.findAll();
 
     if (CollectionUtils.isEmpty(employeeList)) {
       return Collections.emptyList();
@@ -52,14 +43,7 @@ public class EmployeeManagerImpl implements EmployeeManager {
       return null;
     }
 
-    Optional<Employee> optionalEmployee;
-    if (inMemoryDbMode) {
-      optionalEmployee = Optional.ofNullable(employeeRepository.findByPkIdInMemory(pkId));
-    } else {
-      optionalEmployee = employeeRepository.findById(pkId);
-    }
-
-    return optionalEmployee
+    return employeeRepository.findById(pkId)
       .map(EmployeeDomainModel::of)
       .orElse(null);
   }
@@ -71,12 +55,7 @@ public class EmployeeManagerImpl implements EmployeeManager {
       return Collections.emptyList();
     }
 
-    List<Employee> employeeList;
-    if (inMemoryDbMode) {
-      employeeList = employeeRepository.findByNameInMemory(name);
-    } else {
-      employeeList = employeeRepository.findAllByName(name);
-    }
+    List<Employee> employeeList = employeeRepository.findAllByName(name);
 
     if (CollectionUtils.isEmpty(employeeList)) {
       return Collections.emptyList();
@@ -95,12 +74,7 @@ public class EmployeeManagerImpl implements EmployeeManager {
       return null;
     }
 
-    Employee employee;
-    if (inMemoryDbMode) {
-      employee = employeeRepository.findByPhoneNumberInMemory(phoneNumber);
-    } else {
-      employee = employeeRepository.findByPhoneNumber(phoneNumber);
-    }
+    Employee employee = employeeRepository.findByPhoneNumber(phoneNumber);
 
     return Optional.ofNullable(employee)
       .map(EmployeeDomainModel::of)
@@ -114,13 +88,7 @@ public class EmployeeManagerImpl implements EmployeeManager {
       return null;
     }
 
-    Employee employee;
-    if (inMemoryDbMode) {
-      employee = employeeRepository.findByEmailInMemory(email);
-    } else {
-      employee = employeeRepository.findByEmail(email);
-    }
-
+    Employee employee = employeeRepository.findByEmail(email);
 
     return Optional.ofNullable(employee)
       .map(EmployeeDomainModel::of)
@@ -135,11 +103,7 @@ public class EmployeeManagerImpl implements EmployeeManager {
     }
 
     Employee employee = employeeDomainModel.buildEmployee();
-    if (inMemoryDbMode) {
-      employeeRepository.saveInMemory(employee);
-    } else {
-      employeeRepository.save(employee);
-    }
+    employeeRepository.save(employee);
   }
 
   @Override
@@ -155,10 +119,6 @@ public class EmployeeManagerImpl implements EmployeeManager {
     }
 
     Employee employee = employeeDomainModel.buildEmployee();
-    if (inMemoryDbMode) {
-      employeeRepository.deleteInMemory(employee);
-    } else {
-      employeeRepository.delete(employee);
-    }
+    employeeRepository.delete(employee);
   }
 }

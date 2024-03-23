@@ -24,30 +24,11 @@ Reactive Web 는 고객의 정보를 관리하는 서비스 입니다.
 - IDE : IntelliJ IDEA 2023.1.5
 - JAVA : Java 17
 - JDK : Amazon Corretto version 19.0.2
-- Framework : SpringBoot 3.0.2, Spring WebFlux, Spock 2.3-groovy-3.0
-- Database : Mysql
-- ORM : R2DBC, JPA
+- Framework : SpringBoot 3.0.2, Spock 2.3-groovy-3.0
+- Database : MySQL
 
 ## 6. System Architecture
 ![image](images/reactiveweb-architecture.png)
-
-## 7. Data Structure
-- Trie 구현체 : [Trie.java](resource/src/main/java/com/lego/resource/datastructure/Trie.java)
-- Repository CRUD 구현체 : [EmployeeRepositoryImpl.java](resource/src/main/java/com/lego/resource/jpa/EmployeeRepositoryImpl.java)
-- 이미지에서 실선은 연결된 것이며, 점선은 중간 노드가 생략된 것을 의미 합니다.
-![image](images/reactiveweb-dataStructure.png)
-
-
-## 8. Core Function Logic
-### 8.1 고객정보 등록
-![image](images/employeeRegisterLogic.png)
-### 8.2 고객명으로 검색
-![image](images/findByNameLogic.png)
-### 8.3 전화번호로 검색
-![image](images/findByPhoneNumberLogic.png)
-### 8.4 고객정보 삭제
-![image](images/deleteEmployeeLogic.png)
-
 
 <br><br>
 ***  
